@@ -5,17 +5,23 @@ const QuizContext = createContext();
 
 const initialState = {
   loading: false,
-  quiz: new Map(questions.map((item) => [item.question, item])),
+  questions: [],
 };
 
-export const QuizProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+const QuizProvider = ({ children }) => {
+  const [{ questions, dispatch }] = useReducer(reducer, initialState);
 
   return (
-    <QuizContext.Provider value={{ ...state }}>{children}</QuizContext.Provider>
+    <QuizContext.Provider value={{ questions }}>
+      {children}
+    </QuizContext.Provider>
   );
 };
 
-export const useGlobalContext = () => {
-  return useContext(QuizContext);
-};
+function useQuiz() {
+  const context = useContext(QuizContext);
+  if (context === undefined)
+    throw new Error("QuizContext was used outside of the QuizProvider");
+  return context;
+}
+export { QuizProvider, useQuiz };

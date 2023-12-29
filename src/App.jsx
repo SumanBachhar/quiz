@@ -7,9 +7,9 @@ const App = () => {
     <>
       <div className="app">
         <Header />
-        <div className="main">
+        <Main>
           <Question />
-        </div>
+        </Main>
       </div>
     </>
   );
